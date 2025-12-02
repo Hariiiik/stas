@@ -1,7 +1,4 @@
 name: STAS CI/CD Pipeline
-
-# Коли запускати робота?
-# Кожен раз, коли ми пушимо код у гілку main
 on:
   push:
     branches: [ "main" ]
@@ -9,9 +6,9 @@ on:
     branches: [ "main" ]
 
 jobs:
-  # ЗАВДАННЯ 1: ТЕСТУВАННЯ
+
   test:
-    runs-on: ubuntu-latest # Використовувати віртуальний Linux
+    runs-on: ubuntu-latest 
     
     steps:
     - name: Checkout code (Завантажити твій код)
@@ -28,9 +25,8 @@ jobs:
     - name: Run Tests (Запустити тести)
       run: npm test
 
-  # ЗАВДАННЯ 2: ЗБІРКА DOCKER ОБРАЗУ (Тільки якщо тести пройшли)
   build-and-push:
-    needs: test # Чекати завершення тестів
+    needs: test
     runs-on: ubuntu-latest
     
     steps:
@@ -48,5 +44,4 @@ jobs:
       with:
         context: .
         push: true
-        # ЗАМІНИ 'denyskh' НА СВІЙ ЛОГІН DOCKER HUB
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/stas-project:latest
